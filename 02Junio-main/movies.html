@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <title>Restaurante</title>
+</head>
+<body>
+    <div style="margin: 24px;">
+    <nav class="navbar navbar-light" style="background-color: #c72424;">
+        <div class="container">
+         <a class="navbar-navbrand" href="apimovies.html">Inicio</a>
+         <ul class="nav navbar-nav">
+          <li>
+            <a href="CALC.Fisica.html">CALCULADORA</a>
+          </li>
+          <li>
+            <a href="pedido.html">Pedido</a>
+          </li>
+          <li>
+            <a href="contacto.html">Contacto</a>
+          </li>
+          <li class="active">
+            <a href="apimovies.html">Contacto</a>
+          </li>
+         </ul>
+        </div>
+    </nav>
+    </div>
+    <div class="container">
+        <h1>La pagina de Carlos Augusto de peliculas</h1>
+        <form id="form">
+            <input type="text" id="search" placeholder="Buscame la pelicula...">
+            <input type="submit" value="Search">
+        </form>
+        <section id="main" class="movies"></section>
+    </div>
+    <script>
+       const API_URL = 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=3fd2be6f0c70a2a598f084ddfb75487c&page=1&#39';
+    //Esta línea define la URL de la API para obtener las imágenes de las películas.
+    const IMG_PATH = 'https://image.tmdb.org/t/p/w1280&#39';
+    //En esta línea se define la URL de la API para buscar películas.
+    const SEARCH_API = 'https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query="&#39';
+
+    const main = document.getElementById('main');
+    const form = document.getElementById('form');
+    const search = document.getElementById('search');
+
+    getMovies(API_URL);
+    async function getMovies(url){
+       const res= await fetch(url);
+       const data= await res.json();
+       showmovies(data.result);
+    
+        function showmovies(movies){
+            main.innerHTML='';
+            movies.forEach(movies) => {
+                const { title, poster_patch, vote_average, overview, relase_date} = movies;
+          const movieEl = document.createElement('div');
+          movieEl.classList.add('movie');
+          movieEl.innerHTML = '<img src="${IMG_PATH + poster:path}" alt= "${title}" 
+          <div class="movies-info">
+               <h3>${title}
+                 <span class="${getClassByRate(vote_average)}">${vote_average} </div>
+                    <div class="overview">
+                        <h3> Overview </h3>
+                        ${Overview} 
+                        <h3> Relase Date </h3>
+                        ${relase_date}'
+                    main.appendChild(movieEl);
+            } };
+    }
+
+    function.getClassByRate(vote){
+        if(vote>=8){
+            return 'green';
+        } else if ( vote>=5){
+           return 'orange';
+        } else { 
+            return 'red'
+        }
+    }
+     form.addEventListener( 'submit', (e) =>{
+        e.preventDefault()
+        const searchTerm = search.value;
+        if (searchTerm && searchTerm !== ''){
+            getMovies(SEARCH_API + searchTem)
+            search.value = '';
+        } else {
+            window.location.reload();
+        }
+     });
+    </script>
+</body>
+</html>
